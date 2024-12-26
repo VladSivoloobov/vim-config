@@ -1,23 +1,26 @@
 " Key bindings
 nnoremap <leader>n :NERDTreeFocus<CR>
-nnoremap <C-t> <cmd>CHADopen<CR>
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 nnoremap <unique> <C-D> <cmd>call smoothie#do("\<C-D>") <CR>
 vnoremap <unique> <C-D> <cmd>call smoothie#do("\<C-D>") <CR>
 nnoremap : <cmd>FineCmdline<CR>
 nnoremap <C-c> :ToggleTerm <CR>
 nnoremap <F8> :Vista <CR>
+:nmap <space>e <Cmd>CocCommand explorer<CR>
 
-autocmd VimEnter * CHADopen
+autocmd VimEnter * CocCommand explorer
 autocmd VimEnter * :ToggleTerm
+autocmd FileType coc-explorer let g:indent_blankline_enabled = v:false
 
 " Key bindings end
-
-au FileType css,scss let b:prettier_exec_cmd = "prettier-stylelint"
 
 packloadall
 
 let NERDTreeMinimalUI=1
+
+let g:prettier#autoformat = 1
+let g:prettier#autoformat_require_pragma = 0
+let g:prettier#exec_cmd_async = 1
 
 " Configs
 set relativenumber
@@ -40,12 +43,18 @@ noremap <Right> <Nop>
 
 set encoding=UTF-8
 
+autocmd BufWritePre *.js Neoformat
+
 " Plugins
 call plug#begin()
 
+Plug 'echasnovski/mini.icons'
+
+Plug 'echasnovski/mini.nvim'
+
 Plug 'junegunn/seoul256.vim'
 
-Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
+Plug 'sbdchd/neoformat'
 
 Plug 'https://github.com/junegunn/vim-easy-align.git'
 
@@ -70,6 +79,8 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'nsf/gocode', { 'rtp': 'vim' }
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+Plug 'wfxr/minimap.vim'
 
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 
@@ -115,8 +126,6 @@ Plug 'chrisbra/csv.vim'
 
 Plug 'arzg/vim-colors-xcode'
 
-Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
-
 Plug 'sainnhe/everforest'
 
 Plug 'toniz4/vim-stt'
@@ -130,6 +139,8 @@ Plug 'liuchengxu/vista.vim'
 Plug 'Xuyuanp/scrollbar.nvim'
 
 Plug 'camspiers/animate.vim'
+
+Plug 'echasnovski/mini.nvim'
 
 call plug#end()
 
@@ -215,3 +226,6 @@ let g:vista#renderer#icons = {
 \   "function": "\uf794",
 \   "variable": "\uf71b",
 \  }
+
+" Minimap configurations
+let g:minimap_width = 10
